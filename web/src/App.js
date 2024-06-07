@@ -1,84 +1,111 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import './App.css';
-import part1Image1 from './images/part1-image1.jpg';
-import part1Image2 from './images/part1-image2.jpg';
-import part2Image1 from './images/part2-image1.jpg';
-import part2Image2 from './images/part2-image2.jpg';
-import part2Subpart1Image1 from './images/part2-subpart1-image1.jpg';
-import part2Subpart1Image2 from './images/part2-subpart1-image2.jpg';
+import bgEffect1 from './images/bgEffect1.png';
+import bgEffect2 from './images/bgEffect2.png';
+import bgEffect3 from './images/bgEffect3.png';
 
-function PortfolioSection({ title, description, images, subsections }) {
+const initialPortfolioData = [
+  {
+    title: "Part 1",
+    description: "This is the description for Part 1.",
+  },
+  {
+    title: "Part 2",
+    description: "This is the description for Part 2.",
+  },
+  {
+    title: "Part 3",
+    description: "This is the description for Part 3.",
+  },
+];
+
+const bgEffects = [bgEffect1, bgEffect2, bgEffect3];
+
+function PortfolioSection({ title, description, index }) {
+  const backgroundColor = index % 2 === 0 ? 'rgb(22, 23, 24)' : 'rgb(31, 32, 34)';
+  const textColor = 'white';
+
   return (
-    <div className="portfolio-section">
+    <div className="portfolio-section" style={{ backgroundColor, color: textColor }}>
       <h2>{title}</h2>
       <p>{description}</p>
-      <div className="images">
-        {images.map((image, index) => (
-          <img src={image} alt={`${title} ${index + 1}`} key={index} className="portfolio-image" />
-        ))}
-      </div>
-      <div className="subsections">
-        {subsections.map((subsection, index) => (
-          <PortfolioSection
-            key={index}
-            title={subsection.title}
-            description={subsection.description}
-            images={subsection.images}
-            subsections={subsection.subsections}
-          />
-        ))}
-      </div>
     </div>
   );
 }
 
-function App() {
-  const portfolioData = [
-    {
-      title: "Part 1",
-      description: "This is the description for Part 1.",
-      images: [part1Image1, part1Image2],
-      subsections: [],
-    },
-    {
-      title: "Part 2",
-      description: "This is the description for Part 2.",
-      images: [part2Image1, part2Image2],
-      subsections: [
-        {
-          title: "Part 2 - Subpart 1",
-          description: "This is the description for Part 2 - Subpart 1.",
-          images: [part2Subpart1Image1, part2Subpart1Image2],
-          subsections: [],
-        },
-      ],
-    },
-  ];
+function Portfolio() {
+  const [portfolioData, setPortfolioData] = useState(initialPortfolioData);
+  const [bgEffectIndex, setBgEffectIndex] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const totalHeight = document.body.scrollHeight;
+
+      if (scrollPosition >= totalHeight) {
+        setPortfolioData(prevData => [...prevData, ...initialPortfolioData]);
+      }
+
+      const index = Math.floor((window.scrollY / (totalHeight / portfolioData.length)) % bgEffects.length);
+      setBgEffectIndex(index);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [portfolioData]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>My Portfolio</h1>
-        <nav>
-          <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </nav>
-      </header>
-      <main>
-        {portfolioData.map((section, index) => (
-          <PortfolioSection
-            key={index}
-            title={section.title}
-            description={section.description}
-            images={section.images}
-            subsections={section.subsections}
-          />
-        ))}
-      </main>
+    <div className="portfolio-container">
+      <div className="bg-effect" style={{ backgroundImage: `url(${bgEffects[bgEffectIndex]})` }}></div>
+      {portfolioData.map((section, index) => (
+        <PortfolioSection
+          key={index}
+          title={section.title}
+          description={section.description}
+          index={index}
+        />
+      ))}
     </div>
+  );
+}
+
+function About() {
+  return <div className="page-content">This is the About page.</div>;
+}
+
+function Projects() {
+  return <div className="page-content">This is the Projects page.</div>;
+}
+
+function Contact() {
+  return <div className="page-content">This is the Contact page.</div>;
+}
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <h1>My Portfolio</h1>
+          <nav>
+            <ul>
+              <li><Link to="/about">About</Link></li>
+              <li><Link to="/projects">Projects</Link></li>
+              <li><Link to="/contact">Contact</Link></li>
+            </ul>
+          </nav>
+        </header>
+        <main>
+          <Routes>
+            <Route path="/about" element={<About />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/" element={<Portfolio />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 }
 
