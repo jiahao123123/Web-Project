@@ -7,39 +7,20 @@ import bgEffect3 from './images/bgEffect3.png';
 import projectImage1 from './images/projectImage1.png';
 import projectImage2 from './images/projectImage2.png';
 import projectImage3 from './images/projectImage3.png';
+import ProjectDetails from './ProjectDetails';
+import ProjectSection from './ProjectSection';
 
 const initialPortfolioData = [
-  {
-    title: "Part 1",
-    description: "This is the description for Part 1.",
-  },
-  {
-    title: "Part 2",
-    description: "This is the description for Part 2.",
-  },
-  {
-    title: "Part 3",
-    description: "This is the description for Part 3.",
-  },
+  { title: "JiaMei Li" },
+  { title: "UX Design" },
+  { title: "Creative Developer & Designer" },
 ];
 
 const bgEffects = [bgEffect1, bgEffect2, bgEffect3];
 const projectData = [
-  {
-    name: "Project 1",
-    image: projectImage1,
-    description: "This is the description for Project 1.",
-  },
-  {
-    name: "Project 2",
-    image: projectImage2,
-    description: "This is the description for Project 2.",
-  },
-  {
-    name: "Project 3",
-    image: projectImage3,
-    description: "This is the description for Project 3.",
-  },
+  { name: "Project 1", image: projectImage1, description: "This is the description for Project 1." },
+  { name: "Project 2", image: projectImage2, description: "This is the description for Project 2." },
+  { name: "Project 3", image: projectImage3, description: "This is the description for Project 3." },
 ];
 
 function PortfolioSection({ title, description, index }) {
@@ -86,20 +67,6 @@ function Portfolio() {
           index={index}
         />
       ))}
-    </div>
-  );
-}
-
-function ProjectSection({ name, image, description }) {
-  return (
-    <div className="project-section">
-      <div className="project-top">
-        <h2>{name}</h2>
-      </div>
-      <div className="project-bottom">
-        <img src={image} alt={name} />
-        <p>{description}</p>
-      </div>
     </div>
   );
 }
@@ -158,10 +125,26 @@ function Taskbar() {
 }
 
 function App() {
+  const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      const visible = prevScrollPos > currentScrollPos;
+
+      setPrevScrollPos(currentScrollPos);
+      setVisible(visible);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prevScrollPos, visible]);
+
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
+        <header className={`App-header ${visible ? '' : 'hidden'}`}>
           <h1>My Portfolio</h1>
           <nav>
             <ul>
@@ -176,6 +159,7 @@ function App() {
           <Routes>
             <Route path="/projects" element={<Projects />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/project/:projectName" element={<ProjectDetails />} />
             <Route path="/" element={<Portfolio />} />
           </Routes>
         </main>
