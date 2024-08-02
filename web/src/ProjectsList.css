@@ -1,0 +1,84 @@
+/* Reset some styles for full-width sections */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0; /* Remove gap between sections */
+  }
+  
+  .project-item {
+    padding: 40px;
+    border-radius: 0; /* Remove border radius for full-width sections */
+    box-shadow: none; /* Remove shadow */
+    text-align: center;
+    width: 100%;
+  }
+  
+  .project-color-0 {
+    background-color: #f0f8ff; /* AliceBlue */
+  }
+  
+  .project-color-1 {
+    background-color: #faebd7; /* AntiqueWhite */
+  }
+  
+  .project-color-2 {
+    background-color: #f5f5dc; /* Beige */
+  }
+  
+  .project-image {
+    width: 100%;
+    max-width: 80%; /* Allow the image to be large but responsive */
+    height: auto;
+    margin: 0 auto 20px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    object-fit: cover;
+  }
+  
+  /* Responsive Design */
+  @media (min-width: 600px) {
+    .project-item {
+      padding: 50px;
+    }
+    
+    .project-image {
+      max-width: 70%;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .project-item {
+      padding: 60px;
+    }
+    
+    .project-image {
+      max-width: 60%;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .project-item {
+      padding: 70px;
+    }
+    
+    .project-image {
+      max-width: 50%;
+    }
+  }
+  
+  @media (min-width: 1440px) {
+    .project-item {
+      padding: 80px;
+    }
+    
+    .project-image {
+      max-width: 40%;
+    }
+  }
+  

@@ -1,27 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
+import ProjectsList from './ProjectsList'; // Add this line to import the CSS
+import ProjectDetails from './ProjectDetails';
 import bgEffect1 from './images/bgEffect1.png';
 import bgEffect2 from './images/bgEffect2.png';
 import bgEffect3 from './images/bgEffect3.png';
-import projectImage1 from './images/projectImage1.png';
-import projectImage2 from './images/projectImage2.png';
-import projectImage3 from './images/projectImage3.png';
-import ProjectDetails from './ProjectDetails';
-import ProjectSection from './ProjectSection';
-
-const initialPortfolioData = [
-  { title: "JiaMei Li" },
-  { title: "UX Design" },
-  { title: "Creative Developer & Designer" },
-];
 
 const bgEffects = [bgEffect1, bgEffect2, bgEffect3];
-const projectData = [
-  { name: "Project 1", image: projectImage1, description: "This is the description for Project 1." },
-  { name: "Project 2", image: projectImage2, description: "This is the description for Project 2." },
-  { name: "Project 3", image: projectImage3, description: "This is the description for Project 3." },
-];
 
 function PortfolioSection({ title, description, index }) {
   const backgroundColor = index % 2 === 0 ? 'rgb(22, 23, 24)' : 'rgb(31, 32, 34)';
@@ -36,6 +22,12 @@ function PortfolioSection({ title, description, index }) {
 }
 
 function Portfolio() {
+  const initialPortfolioData = [
+    { title: "JiaMei Li" },
+    { title: "UX Design" },
+    { title: "Creative Developer & Designer" },
+  ];
+
   const [portfolioData, setPortfolioData] = useState(initialPortfolioData);
   const [bgEffectIndex, setBgEffectIndex] = useState(0);
 
@@ -65,21 +57,6 @@ function Portfolio() {
           title={section.title}
           description={section.description}
           index={index}
-        />
-      ))}
-    </div>
-  );
-}
-
-function Projects() {
-  return (
-    <div className="projects-page">
-      {projectData.map((project, index) => (
-        <ProjectSection
-          key={index}
-          name={project.name}
-          image={project.image}
-          description={project.description}
         />
       ))}
     </div>
@@ -145,7 +122,7 @@ function App() {
     <Router>
       <div className="App">
         <header className={`App-header ${visible ? '' : 'hidden'}`}>
-          <h1>My Portfolio</h1>
+          <h1>JIAMEI LI</h1>
           <nav>
             <ul>
               <li><Link to="/">About</Link></li>
@@ -157,10 +134,10 @@ function App() {
         </header>
         <main>
           <Routes>
-            <Route path="/projects" element={<Projects />} />
+            <Route path="/" element={<Portfolio />} />
+            <Route path="/projects" element={<ProjectsList />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/project/:projectName" element={<ProjectDetails />} />
-            <Route path="/" element={<Portfolio />} />
           </Routes>
         </main>
       </div>

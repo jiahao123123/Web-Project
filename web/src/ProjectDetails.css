@@ -1,12 +1,13 @@
 .project-details {
+  padding-top: 100px; /* Adjust the value as needed to create space for the taskbar */
   text-align: center;
-  padding: 20px;
 }
 
 .project-details img {
   display: block;
-  width: 600px;  /* Fixed width */
-  height: 400px;  /* Fixed height */
+  width: 100%;
+  max-width: 800px;
+  height: auto; /* Allow height to auto-adjust based on width */
   margin: 0 auto 20px;
   border-radius: 10px;
   border: 2px solid #ccc;
@@ -17,5 +18,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 5px;
+}
+
+.additional-images img {
+  width: 100%;
+  max-width: 1000px;
+  height: auto; /* Fixed height for additional images */
+  margin: 0 auto 20px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  object-fit: cover;
 }
