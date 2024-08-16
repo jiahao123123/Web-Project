@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './ProjectsList.css';
+import Button from '@mui/material/Button';
 
 const projectData = [
   {
@@ -28,7 +29,11 @@ function ProjectsList() {
           <h2>{project.name}</h2>
           <img src={project.image} alt={project.name} className="project-image" />
           <p>{project.description}</p>
-          <Link to={`/project/${project.name}`}>View Details</Link>
+          <Link to={`/project/${project.name}`} style={{ textDecoration: 'none' }}>
+            <Button variant="outlined">
+              View Details
+            </Button>
+          </Link>
         </div>
       ))}
     </div>
